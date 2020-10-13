@@ -23,7 +23,7 @@ jobs:
         working-directory: ./functions
         run: npm install
       - name: Test firebase rules
-        run: firebase emulators:exec --only firestore "$(npm bin)/jest --ci --detectOpenHandles"
+        run: firebase emulators:exec --only firestore "$(npm bin)/jest --ci --detectOpenHandles --passWithNoTests"
       - name: Set configuration
         env:
           FIREBASE_TOKEN: ${{ secrets.PROD_FIREBASE_TOKEN }}
