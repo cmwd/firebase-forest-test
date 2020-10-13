@@ -1,0 +1,18 @@
+version: '3.4'
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: firebase_test
+    environment:
+      - APPLICATION_PORT=3100
+      - DATABASE_URL=postgres://user:pass@database:5432/forestadmin
+      - DATABASE_SCHEMA=public
+      - DATABASE_SSL=false
+      - FOREST_AUTH_SECRET=e74dc174ac38b96d40cc9d8cd83484ac17a76b2af0b7f7ef141e741b4209899683ff3a896dbc6cdbabf9825f788635a3
+      - FOREST_ENV_SECRET=673a87843bbb5893d43dfa1fa4bf264fb4d7144e03dd8c8a4caaaf75cd1ff3ab
+    ports:
+      - "3100:3100"
+    volumes:
+      - ./:/usr/src/app

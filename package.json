@@ -1,0 +1,20 @@
+{
+  "name": "firebase-forestadmin-template",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "bin": {
+    "install": "install.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "commander": "^6.1.0",
+    "jest": "^26.5.3",
+    "lumber-cli": "^3.7.2"
+  }
+}

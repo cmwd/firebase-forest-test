@@ -1,0 +1,39 @@
+name: Build, test and release
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - "main"
+jobs:
+  build:
+    name: Build and deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v2
+      - name: Use Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: "10.x"
+      - name: Install Global Dependencies
+        run: npm install -g firebase-tools
+      - name: Install Dependencies
+        run: npm install
+      - name: Install functions dependencies
+        working-directory: ./functions
+        run: npm install
+      - name: Test firebase rules
+        run: firebase emulators:exec --only firestore "$(npm bin)/jest --ci --detectOpenHandles"
+      - name: Set configuration
+        env:
+          FIREBASE_TOKEN: ${{ secrets.PROD_FIREBASE_TOKEN }}
+          FORESTADMIN_AUTH_SECRET: ${{ secrets.PROD_FORESTADMIN_AUTH_SECRET }}
+          FORESTADMIN_ENV_SECRET: ${{ secrets.PROD_FORESTADMIN_ENV_SECRET }}
+        run: |
+          firebase functions:config:set\
+            forestadmin.auth_secret=$FORESTADMIN_AUTH_SECRET\
+            forestadmin.env_secret=$FORESTADMIN_ENV_SECRET
+      - name: Deploy
+        env:
+          FIREBASE_TOKEN: ${{ secrets.PROD_FIREBASE_TOKEN }}
+        run: firebase deploy
